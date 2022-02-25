@@ -12,12 +12,18 @@ import Simulator.Cotation;
 //
 public class UpLoadDataSet {
 	private MetierDB taskerDB;
-	//Ajouter la possibilité de choisir un dossier
+
 	public UpLoadDataSet(MetierDB metier) {
 		taskerDB = metier;
 	}
 	public UpLoadDataSet() {}
-	
+
+	/**
+	 * Charge les données depuis le fichier/dossier donnée en paramètre.
+	 * @param filePath
+	 * @param separateur
+	 * @return boolean
+	 */
 	public boolean chargerDataSet(String filePath,char separateur) {
 		File fichier = new File(filePath);
 		if(fichier.exists() && fichier.canRead()) {
@@ -35,11 +41,17 @@ public class UpLoadDataSet {
 		else
 			return false;
 	}
-	public boolean chargerData(File fichier, char separateur) {
-		
+
+
+	/**
+	 * Crée la table et déclenche le chargement des données.
+	 * @param fichier
+	 * @param separateur
+	 * @return boolean
+	 */
+	private boolean chargerData(File fichier, char separateur) {
 		if(fichier.exists() && fichier.canRead()) {
 			String nomTable = "data_"+fichier.getName().substring(fichier.getName().indexOf("_")+1, fichier.getName().indexOf("."));
-			//E2 : Charger les données dans la tab.
 			if(this.newTable(nomTable)) {
 				return this.saveData(fichier, nomTable, separateur);
 			}
@@ -49,8 +61,15 @@ public class UpLoadDataSet {
 		else
 			return false;
 	}
-	
-	//Méthode qui va va récuperer les données une par une et les charger dans la BD
+
+
+	/**
+	 * Charge chaque ligne du fichier dans la BD.
+	 * @param leFichier
+	 * @param nomTable
+	 * @param separateur
+	 * @return boolean
+	 */
 	private boolean saveData(File leFichier, String nomTable, char separateur) {
 		boolean checkUpload=true;
 		try {
@@ -86,11 +105,23 @@ public class UpLoadDataSet {
 		    }
 		return checkUpload;
 	}
-	
+
+	/**
+	 * Méthode qui va crée une table pour les cotations.
+	 * @param nomDB
+	 * @return boolean
+	 */
 	private boolean newTable(String nomDB) {
 			return -1<this.taskerDB.updateDB("CREATE TABLE `"+this.taskerDB.DBName+"`.`"+nomDB+"`( `noAction` varchar(20) NOT NULL, `date` date NOT NULL, `heure` time NOT NULL, `coteDebut` float NOT NULL, `coteMax` float NOT NULL, `coteMin` float NOT NULL, `coteFin` float NOT NULL, `nbTransaction` int(11) NOT NULL, PRIMARY KEY (`noAction`, `date`, `heure`)) ENGINE=InnoDB");
 		}
-	
+
+
+	/**
+	 * Séparer les données d'une ligne de donnée pour crée et renvoyée une cotation correspondant au données.
+	 * @param data
+	 * @param separateur
+	 * @return Cotation
+	 */
 	public Cotation separator(String data, char separateur) {
 		//System.out.println("Formatage des données");
 		ArrayList<Object> dataSeparate = new ArrayList<Object>();
@@ -115,9 +146,15 @@ public class UpLoadDataSet {
 		dataSeparate.add(Integer.parseInt(data.substring(lastIndex, data.length())));
 		return new Cotation((String) dataSeparate.get(0), (LocalDate) dataSeparate.get(1), (LocalTime) dataSeparate.get(2), (Float) dataSeparate.get(3), (Float) dataSeparate.get(4), (Float) dataSeparate.get(5), (Float) dataSeparate.get(6), (int) dataSeparate.get(7));
 	}
-	
+
+
+	/**
+	 * Charge dans la BD la cotation donné en paramètre.
+	 * @param data
+	 * @param nomDB
+	 * @return
+	 */
 	private boolean dataUpload(Cotation data, String nomDB) {
-		//System.out.println("Chargement des données");
 		return 0<this.taskerDB.updateDB("INSERT INTO `"+nomDB+"` (`noAction`, `date`, `heure`, `coteDebut`, `coteMax`, `coteMin`, `coteFin`, `nbTransaction`) VALUES ('"+data.getNoAction()+"', '"+data.getDate()+"', '"+data.getHeure()+"', '"+data.getCoteDebut()+"', '"+data.getCoteMax()+"', '"+data.getCoteMin()+"', '"+data.getCoteFin()+"', '"+data.getNbTransaction()+"')");			
 	}
 	

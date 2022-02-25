@@ -3,67 +3,86 @@ package Simulator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.util.*;
 import java.util.Map.Entry;
 import DataSet.UpLoadDataSet;
 import Simulator.AlgoPrediction.algo;
 
 public class Trader {
 	private ArrayList<Cotation> cour;
-	
+
+	/**
+	 * Construteur qui va charger (dans une arraylist) le fichier qui contient les cotations d'une journée.
+	 * @param nomFichier
+	 * @param separateur
+	 */
 	public Trader(String nomFichier, char separateur) {
 		super();
 		cour = new ArrayList<Cotation>();
-		System.out.println("Chargement des donnée...");
+		System.out.println("Chargement des donnée en cour...");
+
 		if(this.chargerCotations(nomFichier, separateur))
-			System.out.println("Chargement réussi ");
+			System.out.println("Chargement des données réussi.");
 		else
-			System.out.println("Une erreur est survenue");
+			System.out.println("Une erreur est survenue dans le chargement du fichier -"+nomFichier+"- fournis.");
 	}
-	
-	public void simulation(algo algoPredict) {
+
+
+	/**
+	 * Méthode qui simule le robot trader. Il parcoure le cour actuel tout les 5 minutes et prends une décision d'achat ou de vente d'un ou plusieur actions.
+	 * @param algoPredict
+	 */
+	public void simulation(algo algoPredict, double capital) {
+		System.out.println("Lancement de la simulation avec un capital de départ de " + capital);
 		LocalTime heureActuel = LocalTime.of(9, 0);
-		Portefeuille portefeuilleAction = new Portefeuille(10000.0);
+		Portefeuille portefeuilleAction = new Portefeuille(capital);
 		AlgoPrediction algoPrediction = new AlgoPrediction();
-		Iterator<Action> actionDétenu;
+		//HashMap<String ,Ordre> actionDétenu = new HashMap<String, Ordre>();
+		ArrayList<Cotation> coteHeure;
+		//On itere tous les 5 minutes jusqu'à fermeture du marché
 		while(heureActuel.isBefore(LocalTime.of(17, 36))) {
-			ArrayList<Cotation> coteHeure = this.getCoteHoraire(heureActuel);
+			System.out.println("\tIl est " + heureActuel.getHour()+"h "+heureActuel.getMinute()+".");
+			coteHeure = this.getCoteHoraire(heureActuel);
 			//Achat
 			for (Iterator<Cotation> iterator = coteHeure.iterator(); iterator.hasNext();) {
 				Cotation cote = (Cotation) iterator.next();
-				if(algoPrediction.prediction(cote, algoPredict)){
-					if (portefeuilleAction.autorisationAchat((double) (cote.getCoteDebut()*10))) {
-						System.out.println("Achat de l'action "+ cote);
+				int quantité = algoPrediction.prediction(cote, algoPredict);
+				if(quantité>0){
+					if (portefeuilleAction.autorisationAchat((double) (cote.getCoteDebut()*quantité))) {
+						System.out.println("\t\tAchat de "+ quantité +" action "+ cote);
 						portefeuilleAction.achat(cote, 10);
-						System.out.println("\tCaptile Actuel : " + portefeuilleAction.getCapital());
-						System.out.println("Action détenue :\n\t");
-//						portefeuilleAction.afficheActionDetenue();
+						System.out.println("\t\tCaptile Actuel : " + portefeuilleAction.getCapital());
+						portefeuilleAction.afficheActionDetenue();
 					}
 				}
 			}
 			//Vente
-			actionDétenu = portefeuilleAction.getActionDétenu().values().iterator();
-
-			while (actionDétenu.hasNext()) {
-				Action action = actionDétenu.next();
-				if (algoPrediction.prediction(action, algoPredict)) {
-					actionDétenu.remove();
-					System.out.println("Vente de l'action " + action);
-					portefeuilleAction.vente(action.getNoAction(), 10, 10);
-					System.out.println("\tCaptile Actuel : " + portefeuilleAction.getCapital());
-					System.out.println("Action détenue :\n\t");
+			Iterator<Ordre> actionDétenu = portefeuilleAction.getActionDétenu().values().iterator();
+			while (actionDétenu.hasNext()){
+				Ordre temp = actionDétenu.next();
+				int quantité = algoPrediction.prediction(temp, algoPredict);
+				if (quantité>0) {
+					System.out.println("\t\tVente de "+quantité+" action " + temp);
+					portefeuilleAction.vente(temp.getNoAction(), 10, 10);
+					System.out.println("\t\tCapitale Actuel : " + portefeuilleAction.getCapital());
+					portefeuilleAction.afficheActionDetenue();
+					actionDétenu = portefeuilleAction.getActionDétenu().values().iterator();
 				}
 			}
+
 			heureActuel=heureActuel.plusMinutes(5);
 		}
 
 		portefeuilleAction.afficheActionDetenue();
-		System.out.println(portefeuilleAction.getCapital());
+		System.out.println("*******************************");
+		System.out.println("\nCapital en fin de simulation "+portefeuilleAction.getCapital());
 	}
-	
+
+	/**
+	 * Permet de récuperer les cotations à une heure précise.
+	 * @param heure
+	 * @return Une arraylist de Cotation.
+	 */
 	private ArrayList<Cotation> getCoteHoraire(LocalTime heure){
 		ArrayList<Cotation> coteHeure = new ArrayList<Cotation>();
 		for (Iterator<Cotation> iterator = cour.iterator(); iterator.hasNext();) {
@@ -73,6 +92,14 @@ public class Trader {
 		}
 		return coteHeure;
 	}
+
+
+	/**
+	 * Permet de charger les cotations du fichier fournis.
+	 * @param nomFichier
+	 * @param separateur
+	 * @return
+	 */
 	private boolean chargerCotations(String nomFichier, char separateur) {
 		try {
 			Scanner myReader = new Scanner(new File(nomFichier));
@@ -101,19 +128,22 @@ public class Trader {
 			return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			System.err.println();
 			return false;    
 		}
 	}
-	
+
+	/**
+	 * Permet d'afficher les cotations.
+	 */
 	public void afficheCotations() {
 		for (Iterator<Cotation> iterator = cour.iterator(); iterator.hasNext();) 
-			System.out.println((Cotation) iterator.next());
-		
+			System.out.println("\t\t\t"+(Cotation) iterator.next());
 	}
 	
 	public static void main(String[] args) {
 		Trader alpha = new Trader("\\C:\\Users\\Hakan\\Desktop\\Dossier dev\\Java\\Projet Robot Trader\\SRD_01042019.txt", ';');
-		alpha.simulation(algo.Hasard);
+		alpha.simulation(algo.Hasard, 10000);
 	}
 }
 

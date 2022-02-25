@@ -27,11 +27,8 @@ public class Fenetre extends JFrame {
 	private JPanel fenetre;
 	private JToolBar barreMenu;
 	private HashMap<Integer, Object> theme; //"clair" ou "sombre"
-	private String context; //"menuPrincipal", "menuAjout", "menuSimulate", "menuConfiguration", "ajoutDataSet", "ajoutUnique", 
 	private JPanel fenetreCentrale;
 	private String themeActuel;
-	private JButton boutonTheme;
-	//private Box verticalBox;
 	private ActionMenu clicAction;
 	public enum element { BOUTON, TEXTE, SAISIE, CHECKBOX, LISTEDEROULANTE}
 	
@@ -45,7 +42,7 @@ public class Fenetre extends JFrame {
 		setLocationRelativeTo(null);
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setAlwaysOnTop(true);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Fenetre.class.getResource("/src/Ressources/alpha.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Fenetre.class.getResource("/Ressources/alpha.png")));
 		//Fenetre Fin
 		
 		//Conteneur principale debut
@@ -53,12 +50,13 @@ public class Fenetre extends JFrame {
 		fenetre = (JPanel) getContentPane();
 		
 			//Barre de menu début
-		JToolBar barreMenu = new JToolBar();		
+		barreMenu = new JToolBar();
 		barreMenu.setOpaque(false);
 				//Bouton theme début
-		this.boutonTheme = new JButton();
-		this.boutonTheme.setContentAreaFilled(false);
-		this.boutonTheme.addActionListener(new ActionListener() {
+		JButton boutonTheme = new JButton();
+		boutonTheme.setContentAreaFilled(false);
+		boutonTheme.setBorderPainted(false);
+		boutonTheme.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -66,6 +64,14 @@ public class Fenetre extends JFrame {
 			}
 		});
 		barreMenu.add(boutonTheme);
+		JButton boutonAccueil = new JButton();
+		boutonAccueil.setContentAreaFilled(false);
+		boutonAccueil.setBorderPainted(false);
+		barreMenu.add(boutonAccueil);
+		JButton boutonRetour = new JButton();
+		boutonRetour.setContentAreaFilled(false);
+		boutonRetour.setBorderPainted(false);
+		barreMenu.add(boutonRetour);
 				//Bouton theme fin
 		fenetre.add(barreMenu, BorderLayout.NORTH);
 			//Barre de menu Fin
@@ -85,7 +91,12 @@ public class Fenetre extends JFrame {
 	public void changeTitle(String menuActuel) {
 		setTitle("Alpha Trading - "+ menuActuel);
 	}
-	
+
+	/**
+	 * Permet l'ajout d'élement dans la fenetre principale.
+	 * @param elt
+	 * @param texte
+	 */
 	public void ajoutElement(element elt, String texte) {
 		Object monElement;
 		switch (elt) {
@@ -121,50 +132,70 @@ public class Fenetre extends JFrame {
 		((Component) monElement).setFont(new Font("SansSerif", Font.BOLD, 15));
 		fenetreCentrale.add((Component) monElement);
 	}
-	
-	//Methode permettant de suprimmer le contenu du panneau centrale
+
+
+	/**
+	 * Permet de nouveller la fenetre centrale (supprimer les élements de la fenetre centrale)
+	 */
 	public void newPanneauC() {
 		fenetreCentrale.removeAll();
 	}
-	
-	//Methode qui applique un theme donner en parametre
+
+
+	/**
+	 * Permet de rafraichir la fenetre avec le theme courant (modifié).
+	 */
 	private void appliqueTheme() {
 		fenetre.setBackground((Color) theme.get(2));
-		boutonTheme.setIcon((Icon) theme.get(4));
-		boutonTheme.setBorderPainted(false);
+		for (int i = 0; i < barreMenu.getComponentCount(); i++) {
+			System.out.println("Composant "+i+" get "+ (i+4));
+			((JButton)barreMenu.getComponent(i)).setIcon((ImageIcon)this.theme.get(i+4));
+		}
 		for (int i = 0; i < fenetreCentrale.getComponentCount(); i++) {
 			this.fenetreCentrale.getComponent(i).setForeground((Color) this.theme.get(1));  //Couleur texte
 		}
 	}
-	
-	//Methode pour changer le theme
+
+	/**
+	 * Applique l'opposer du theme courant.
+	 */
 	private void changeTheme() {
 		if(this.themeActuel=="clair")
 			switchTheme("sombre");
 		else
 			switchTheme("clair");
 	}
-	
-	//Pour changer le style de theme
-	private void switchTheme(String theme)
+
+
+	/**
+	 * Applique le theme passer en paramètre.
+	 * @param themeChoix
+	 */
+	private void switchTheme(String themeChoix)
 	{
-		this.themeActuel = theme;
-		if(theme.contentEquals("clair")) {
+		this.themeActuel = themeChoix;
+		if(themeChoix.contentEquals("clair")) {
 			this.theme.put(1, Color.DARK_GRAY); //Couleur primaire
 			this.theme.put(2, Color.WHITE); //Couleur secondaire
 			this.theme.put(3, Color.GRAY); // couleur décor
-			this.theme.put(4, new ImageIcon(Toolkit.getDefaultToolkit().getImage(Fenetre.class.getResource("/src/Ressources/sombre.png"))));  //icon theme
+			this.theme.put(4, new ImageIcon(Toolkit.getDefaultToolkit().getImage(Fenetre.class.getResource("/Ressources/sombre.png"))));  //icon theme
+			this.theme.put(5, new ImageIcon(Toolkit.getDefaultToolkit().getImage(Fenetre.class.getResource("/Ressources/accueilsombre.png"))));  //accueil theme
+			this.theme.put(6, new ImageIcon(Toolkit.getDefaultToolkit().getImage(Fenetre.class.getResource("/Ressources/retoursombre.png"))));  //retour theme
 		}
 		else {
 			this.theme.put(1, Color.WHITE); //Couleur primaire
 			this.theme.put(2, Color.DARK_GRAY); //Couleur secondaire
 			this.theme.put(3, Color.GRAY); // couleur décor
-			this.theme.put(4, new ImageIcon(Toolkit.getDefaultToolkit().getImage(Fenetre.class.getResource("/src/Ressources/clair.png"))));  //icon theme
+			this.theme.put(4, new ImageIcon(Toolkit.getDefaultToolkit().getImage(Fenetre.class.getResource("/Ressources/clair.png"))));  //icon theme
+			this.theme.put(5, new ImageIcon(Toolkit.getDefaultToolkit().getImage(Fenetre.class.getResource("/Ressources/acceuilclair.png"))));  //accueil theme
+			this.theme.put(6, new ImageIcon(Toolkit.getDefaultToolkit().getImage(Fenetre.class.getResource("/Ressources/retourclair.png"))));  //retour theme
 		}
 		this.appliqueTheme();
 	}
 
-	//Recupérer le theme par défault
+	/**
+	 * Recupérer le theme par défault en fonction de l'heure actuel et change le theme courant.
+	 */
 	private void themeDefault()
 	{
 		if(isBetween(LocalTime.now(), LocalTime.of(8, 0), LocalTime.of(18, 0))){
@@ -175,7 +206,14 @@ public class Fenetre extends JFrame {
 			switchTheme("sombre");
 		}
 	}
-	
+
+	/**
+	 * Méthode annexe qui permet de vérfier qu'une heure est compris entre de dates.
+	 * @param candidate
+	 * @param start
+	 * @param end
+	 * @return Boolean
+	 */
 	//Verifie si une date est comprise entre deux date
 	private static boolean isBetween(LocalTime candidate, LocalTime start, LocalTime end) {
 		  return !candidate.isBefore(start) && !candidate.isAfter(end);  // Inclusive.

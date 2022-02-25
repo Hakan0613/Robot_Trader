@@ -8,15 +8,12 @@ public class ConnectDB {
 	@SuppressWarnings("finally")
 	public boolean getConnect(String leDriver, String pseudoURL, String user, String mdp) {
 		boolean res=false;
-	
 		try {
 			//E1 : charger le driver mysql
 			Class.forName(leDriver).newInstance(); // creation d'une instance du Driver
 			//E2 : crée la connection
 			this.cnx = DriverManager.getConnection(pseudoURL,user,mdp);
 			res=true;
-			System.out.println("Connexion établie :)");
-			
 		} 
 		catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();

@@ -12,9 +12,12 @@ public class ActionMenu implements ActionListener
 	public ActionMenu(Fenetre laFenetre) {
 		this.fenetre = laFenetre;
 	}
-	
-	
-	//Vas lancer les menu et sou menu et les formulaire
+
+
+	/**
+	 * Permet d'interprete les clics et de lancer le menu/sous-menu/formulaire correspondant. La fenetre nevouller et le menu/sous-menu/formulaire donnée est charger.
+	 * @param action
+	 */
 	@Override
 	public void actionPerformed(ActionEvent action) {
 		this.fenetre.newPanneauC();
