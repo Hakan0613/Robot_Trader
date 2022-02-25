@@ -1,8 +1,0 @@
-Pb à resoudre :
-	-Donnée manquante sur un long laps de temps : qeulle traitement ? 
-	-Verifier si une table existe déjà en BD sans avoir une erreur
-	-Méthode de chargement des données : On lis une ligne puis on l'envoi en BD ou alors on fait ça sous formes de transaction (plus couteux en mémoire)
-
-	Pour la simulation :
-		-Donnée en entrer txt?
-		-Traitement pour chaque heure on a les action leur prix et prendre un décision en fonction de cela
