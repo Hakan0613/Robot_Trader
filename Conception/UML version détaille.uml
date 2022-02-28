@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/Hakan/IdeaProjects/Robot Trader/src</OriginalElement>
+  <nodes>
+    <node x="779.8870795515215" y="-767.0">Simulator.Action</node>
+    <node x="1984.0" y="-909.5">Simulator.AlgoPrediction</node>
+    <node x="9.0" y="-378.5">Main.MenuPrincipale</node>
+    <node x="635.0" y="-415.5">Graphisme.Fenetre</node>
+    <node x="1586.5" y="-271.5">DataSet.MenuDB</node>
+    <node x="2486.0" y="-260.5">DataSet.MetierDB</node>
+    <node x="2378.5" y="-995.5">Simulator.Cotation</node>
+    <node x="1956.5" y="-464.5">DataSet.UpLoadDataSet</node>
+    <node x="1602.0" y="-949.5">Simulator.AlgoPrediction.algo</node>
+    <node x="1068.5" y="-822.5">Simulator.Trader</node>
+    <node x="1102.0" y="-338.5">Graphisme.ActionMenu</node>
+    <node x="1947.5" y="-767.5">Simulator.Ordre</node>
+    <node x="2886.5" y="-258.5">DataSet.ConnectDB</node>
+    <node x="1551.5" y="-698.5">Simulator.Portefeuille</node>
+    <node x="332.0" y="-269.5">Graphisme.Fenetre.element</node>
+    <node x="1962.0" y="-140.5">DataSet.GenerateDB</node>
+  </nodes>
+  <notes>
+    <note x="662.8870795515215" y="-815.0">
+      <node>Simulator.Action</node>
+      <value>Description des actions sur le marché récuper depuis la BD</value>
+      <edge>
+        <point x="0.0" y="0.0" />
+        <point x="0.0" y="0.0" />
+      </edge>
+    </note>
+    <note x="1974.5" y="-973.5">
+      <node>Simulator.AlgoPrediction</node>
+      <value>Class qui contient tout les algos. \nChaque algos retoune une quantité.</value>
+      <edge>
+        <point x="0.0" y="0.0" />
+        <point x="0.0" y="0.0" />
+      </edge>
+    </note>
+    <note x="9.0" y="-250.0">
+      <node>Main.MenuPrincipale</node>
+      <value>Debut du programme :\n  -Genere la fenetre\n  -Genere le menu principal</value>
+      <edge>
+        <point x="-0.9614682017080725" y="39.96219040741539" />
+        <point x="99.03853179829193" y="-248.13755894472354" />
+        <point x="0.7285568630780404" y="-28.137558944723537" />
+      </edge>
+    </note>
+    <note x="1014.1444411402354" y="-194.0">
+      <node>Graphisme.Fenetre</node>
+      <value>Gere l'affichage de la fenetre</value>
+      <edge>
+        <point x="165.0" y="100.0" />
+        <point x="1000.0" y="-200.0" />
+        <point x="1000.0" y="-180.0" />
+        <point x="-86.0" y="0.0" />
+      </edge>
+    </note>
+    <note x="1823.3684311143209" y="-214.0">
+      <node>DataSet.MenuDB</node>
+      <value>Permet de gerer le menu de gestion des données</value>
+      <edge>
+        <point x="93.5" y="0.0" />
+        <point x="1857.0" y="-200.0" />
+        <point x="1857.0" y="-200.0" />
+        <point x="-139.5" y="0.0" />
+      </edge>
+    </note>
+    <note x="1334.096085220273" y="-214.0">
+      <node>Graphisme.ActionMenu</node>
+      <value>Gere les clic et les interraction</value>
+      <edge>
+        <point x="118.0" y="25.666666666666686" />
+        <point x="1380.0" y="-274.3333333333333" />
+        <point x="1380.0" y="-200.0" />
+        <point x="-89.0" y="0.0" />
+      </edge>
+    </note>
+    <note x="2885.5" y="-794.0">
+      <node>Simulator.Cotation</node>
+      <value>Corespond à une ligne de donnée des données fournis</value>
+      <edge>
+        <point x="201.5" y="0.0" />
+        <point x="-154.5" y="0.0" />
+      </edge>
+    </note>
+    <note x="313.49999999999994" y="-119.36199498704286">
+      <node>Graphisme.Fenetre.element</node>
+      <value>Enumération qui définit simplement\nles types element que l'on peut \ninserer dans la fenetre (ex : saisie, \ntexte...)</value>
+      <edge>
+        <point x="88.0" y="33.0" />
+        <point x="420.0" y="-187.0" />
+        <point x="420.0" y="-118.8924763158949" />
+        <point x="-18.598581078210827" y="-37.530481328852034" />
+      </edge>
+    </note>
+    <note x="2294.1805514252937" y="-394.0">
+      <node>DataSet.UpLoadDataSet</node>
+      <value>Permet de charger un jeu de donnée dans la BD</value>
+      <edge>
+        <point x="123.5" y="-20.0" />
+        <point x="2323.75" y="-380.0" />
+        <point x="2323.75" y="-380.0" />
+        <point x="-136.0" y="0.0" />
+      </edge>
+    </note>
+    <note x="1962.0" y="60.83750371723522">
+      <node>DataSet.GenerateDB</node>
+      <value>Permet de generer une base de donnée</value>
+      <edge>
+        <point x="118.0" y="20.0" />
+        <point x="2092.2888822804707" y="-60.0" />
+        <point x="2092.2888822804707" y="62.57954883385014" />
+        <point x="2147.0" y="62.57954883385014" />
+        <point x="2147.0" y="74.83750371723522" />
+        <point x="-114.0" y="0.0" />
+      </edge>
+    </note>
+    <note x="1113.0" y="-621.9690726029144">
+      <node>Simulator.Trader</node>
+      <value>Va simuler le robot trader à partir d'un \nfichier ou de données d'entrainement \nrécuperer depuis la BD.</value>
+      <edge>
+        <point x="151.5" y="60.0" />
+        <point x="1286.5" y="-680.0" />
+        <point x="1286.5" y="-611.9690726029144" />
+        <point x="-112.5" y="-20.0" />
+      </edge>
+    </note>
+    <note x="1551.5" y="-986.257954883385">
+      <node>Simulator.AlgoPrediction.algo</node>
+      <value>Enumeration qui définit les algorithme que l'on peut choisir</value>
+      <edge>
+        <point x="78.0" y="-40.0" />
+        <point x="1551.5" y="-940.0" />
+        <point x="-168.0" y="0.0" />
+      </edge>
+    </note>
+  </notes>
+  <edges>
+    <edge source="Graphisme.Fenetre.element" target="Graphisme.Fenetre" relationship="INNER_CLASS">
+      <point x="88.0" y="-40.0" />
+      <point x="540.0" y="-260.0" />
+      <point x="540.0" y="-300.0" />
+      <point x="-165.0" y="0.0" />
+    </edge>
+    <edge source="DataSet.MenuDB" target="Graphisme.Fenetre" relationship="TO_ONE">
+      <point x="-93.5" y="-65.19999999999999" />
+      <point x="1440.0" y="-265.2" />
+      <point x="1440.0" y="-380.0" />
+      <point x="1060.0" y="-380.0" />
+      <point x="1060.0" y="-340.0" />
+      <point x="165.0" y="-40.0" />
+    </edge>
+    <edge source="Simulator.AlgoPrediction" target="Simulator.Cotation" relationship="TO_MANY">
+      <point x="96.0" y="-20.0" />
+      <point x="2260.0" y="-880.0" />
+      <point x="2260.0" y="-920.0" />
+      <point x="-201.5" y="-140.0" />
+    </edge>
+    <edge source="Simulator.AlgoPrediction" target="Simulator.AlgoPrediction.algo" relationship="DEPENDENCY">
+      <point x="-96.0" y="-40.0" />
+      <point x="78.0" y="0.0" />
+    </edge>
+    <edge source="Simulator.AlgoPrediction" target="Simulator.Cotation" relationship="DEPENDENCY">
+      <point x="96.0" y="20.0" />
+      <point x="-201.5" y="-60.0" />
+    </edge>
+    <edge source="DataSet.MenuDB" target="DataSet.MetierDB" relationship="CREATE">
+      <point x="93.5" y="47.66666666666666" />
+      <point x="1820.0" y="-152.33333333333334" />
+      <point x="1820.0" y="-80.0" />
+      <point x="1840.0" y="-80.0" />
+      <point x="1840.0" y="-0.0" />
+      <point x="2260.0" y="-0.0" />
+      <point x="2260.0" y="-159.66666666666666" />
+      <point x="-94.0" y="40.33333333333334" />
+    </edge>
+    <edge source="DataSet.MetierDB" target="DataSet.ConnectDB" relationship="TO_ONE">
+      <point x="94.0" y="-40.0" />
+      <point x="-153.5" y="-20.0" />
+    </edge>
+    <edge source="Graphisme.Fenetre" target="Graphisme.ActionMenu" relationship="CREATE">
+      <point x="165.0" y="-100.0" />
+      <point x="1000.0" y="-400.0" />
+      <point x="1000.0" y="-330.79999999999995" />
+      <point x="-118.0" y="-30.799999999999955" />
+    </edge>
+    <edge source="DataSet.UpLoadDataSet" target="DataSet.MetierDB" relationship="DEPENDENCY">
+      <point x="123.5" y="80.0" />
+      <point x="2240.0" y="-280.0" />
+      <point x="2240.0" y="-200.0" />
+      <point x="-94.0" y="0.0" />
+    </edge>
+    <edge source="Simulator.Action" target="Simulator.Trader" relationship="GENERALIZATION">
+      <point x="47.5" y="0.0" />
+      <point x="-151.5" y="0.0" />
+    </edge>
+    <edge source="Main.MenuPrincipale" target="Graphisme.Fenetre.element" relationship="DEPENDENCY">
+      <point x="91.0" y="25.666666666666686" />
+      <point x="240.0" y="-314.3333333333333" />
+      <point x="240.0" y="-220.0" />
+      <point x="-88.0" y="0.0" />
+    </edge>
+    <edge source="DataSet.MenuDB" target="DataSet.MetierDB" relationship="TO_ONE">
+      <point x="93.5" y="-40.0" />
+      <point x="-94.0" y="-40.0" />
+    </edge>
+    <edge source="DataSet.MenuDB" target="Graphisme.Fenetre" relationship="DEPENDENCY">
+      <point x="-93.5" y="40.0" />
+      <point x="1320.0" y="-160.0" />
+      <point x="1320.0" y="-220.0" />
+      <point x="1060.0" y="-220.0" />
+      <point x="1060.0" y="-260.0" />
+      <point x="165.0" y="40.0" />
+    </edge>
+    <edge source="DataSet.MetierDB" target="DataSet.ConnectDB" relationship="CREATE">
+      <point x="94.0" y="40.0" />
+      <point x="2720.0" y="-160.0" />
+      <point x="2720.0" y="-200.0" />
+      <point x="-153.5" y="20.0" />
+    </edge>
+    <edge source="DataSet.UpLoadDataSet" target="Simulator.Cotation" relationship="CREATE">
+      <point x="123.5" y="-80.0" />
+      <point x="2300.0" y="-440.0" />
+      <point x="2300.0" y="-656.3333333333334" />
+      <point x="-201.5" y="123.66666666666663" />
+    </edge>
+    <edge source="DataSet.MenuDB" target="Graphisme.Fenetre.element" relationship="DEPENDENCY">
+      <point x="-93.5" y="40.0" />
+      <point x="1320.0" y="-160.0" />
+      <point x="1320.0" y="-140.0" />
+      <point x="560.0" y="-140.0" />
+      <point x="560.0" y="-220.0" />
+      <point x="88.0" y="0.0" />
+    </edge>
+    <edge source="DataSet.MenuDB" target="DataSet.GenerateDB" relationship="CREATE">
+      <point x="93.5" y="47.66666666666666" />
+      <point x="1820.0" y="-152.33333333333334" />
+      <point x="1820.0" y="-80.0" />
+      <point x="-118.0" y="0.0" />
+    </edge>
+    <edge source="Graphisme.ActionMenu" target="DataSet.MenuDB" relationship="TO_ONE">
+      <point x="118.0" y="-25.666666666666686" />
+      <point x="1420.0" y="-325.6666666666667" />
+      <point x="1420.0" y="-252.6" />
+      <point x="-93.5" y="-52.599999999999994" />
+    </edge>
+    <edge source="Simulator.Trader" target="Simulator.AlgoPrediction" relationship="CREATE">
+      <point x="151.5" y="20.0" />
+      <point x="1700.0" y="-720.0" />
+      <point x="1700.0" y="-827.0" />
+      <point x="-96.0" y="33.0" />
+    </edge>
+    <edge source="DataSet.UpLoadDataSet" target="DataSet.MetierDB" relationship="TO_ONE">
+      <point x="123.5" y="20.0" />
+      <point x="2260.0" y="-340.0" />
+      <point x="2260.0" y="-240.0" />
+      <point x="-94.0" y="-40.0" />
+    </edge>
+    <edge source="Simulator.Trader" target="Simulator.Portefeuille" relationship="CREATE">
+      <point x="151.5" y="20.0" />
+      <point x="1480.0" y="-720.0" />
+      <point x="1480.0" y="-560.0" />
+      <point x="-128.5" y="0.0" />
+    </edge>
+    <edge source="Simulator.Trader" target="Simulator.Ordre" relationship="DEPENDENCY">
+      <point x="151.5" y="-20.0" />
+      <point x="-132.5" y="-120.0" />
+    </edge>
+    <edge source="Graphisme.ActionMenu" target="Graphisme.Fenetre" relationship="DEPENDENCY">
+      <point x="-118.0" y="25.666666666666686" />
+      <point x="1060.0" y="-274.3333333333333" />
+      <point x="1060.0" y="-260.0" />
+      <point x="165.0" y="40.0" />
+    </edge>
+    <edge source="Simulator.Portefeuille" target="Simulator.Cotation" relationship="DEPENDENCY">
+      <point x="128.5" y="80.0" />
+      <point x="2280.0" y="-480.0" />
+      <point x="2280.0" y="-840.0" />
+      <point x="-201.5" y="-60.0" />
+    </edge>
+    <edge source="Main.MenuPrincipale" target="Graphisme.Fenetre" relationship="CREATE">
+      <point x="91.0" y="-15.399999999999977" />
+      <point x="260.0" y="-355.4" />
+      <point x="260.0" y="-400.0" />
+      <point x="520.0" y="-400.0" />
+      <point x="520.0" y="-380.0" />
+      <point x="-165.0" y="-80.0" />
+    </edge>
+    <edge source="Simulator.Portefeuille" target="Simulator.Ordre" relationship="CREATE">
+      <point x="128.5" y="-100.0" />
+      <point x="-132.5" y="-20.0" />
+    </edge>
+    <edge source="Simulator.AlgoPrediction.algo" target="Simulator.AlgoPrediction" relationship="INNER_CLASS">
+      <point x="78.0" y="40.0" />
+      <point x="-96.0" y="0.0" />
+    </edge>
+    <edge source="Main.MenuPrincipale" target="Simulator.Trader" relationship="GENERALIZATION">
+      <point x="91.0" y="-30.799999999999955" />
+      <point x="240.0" y="-370.79999999999995" />
+      <point x="240.0" y="-440.0" />
+      <point x="860.0" y="-440.0" />
+      <point x="860.0" y="-500.0" />
+      <point x="1020.0" y="-500.0" />
+      <point x="1020.0" y="-740.0" />
+      <point x="-151.5" y="0.0" />
+    </edge>
+    <edge source="Simulator.Trader" target="DataSet.UpLoadDataSet" relationship="CREATE">
+      <point x="151.5" y="20.0" />
+      <point x="1480.0" y="-720.0" />
+      <point x="1480.0" y="-400.0" />
+      <point x="1820.0" y="-400.0" />
+      <point x="1820.0" y="-360.0" />
+      <point x="-123.5" y="0.0" />
+    </edge>
+    <edge source="DataSet.GenerateDB" target="DataSet.MetierDB" relationship="DEPENDENCY">
+      <point x="118.0" y="-40.0" />
+      <point x="2240.0" y="-120.0" />
+      <point x="2240.0" y="-200.0" />
+      <point x="-94.0" y="0.0" />
+    </edge>
+    <edge source="Simulator.Trader" target="Simulator.AlgoPrediction.algo" relationship="DEPENDENCY">
+      <point x="151.5" y="-20.0" />
+      <point x="1440.0" y="-760.0" />
+      <point x="1440.0" y="-900.0" />
+      <point x="-78.0" y="0.0" />
+    </edge>
+    <edge source="Graphisme.ActionMenu" target="DataSet.MenuDB" relationship="CREATE">
+      <point x="118.0" y="0.0" />
+      <point x="1400.0" y="-300.0" />
+      <point x="1400.0" y="-240.0" />
+      <point x="-93.5" y="-40.0" />
+    </edge>
+    <edge source="Graphisme.Fenetre" target="Graphisme.Fenetre.element" relationship="DEPENDENCY">
+      <point x="-165.0" y="80.0" />
+      <point x="88.0" y="0.0" />
+    </edge>
+    <edge source="Simulator.Trader" target="Simulator.Cotation" relationship="DEPENDENCY">
+      <point x="151.5" y="-20.0" />
+      <point x="1440.0" y="-760.0" />
+      <point x="1440.0" y="-1000.0" />
+      <point x="2280.0" y="-1000.0" />
+      <point x="2280.0" y="-840.0" />
+      <point x="-201.5" y="-60.0" />
+    </edge>
+    <edge source="Simulator.Trader" target="Simulator.Cotation" relationship="TO_MANY">
+      <point x="151.5" y="-60.0" />
+      <point x="1420.0" y="-800.0" />
+      <point x="1420.0" y="-1040.0" />
+      <point x="2260.0" y="-1040.0" />
+      <point x="2260.0" y="-920.0" />
+      <point x="-201.5" y="-140.0" />
+    </edge>
+    <edge source="Graphisme.Fenetre" target="Graphisme.ActionMenu" relationship="TO_ONE">
+      <point x="165.0" y="0.0" />
+      <point x="-118.0" y="0.0" />
+    </edge>
+    <edge source="Simulator.Portefeuille" target="Simulator.Ordre" relationship="TO_MANY">
+      <point x="128.5" y="0.0" />
+      <point x="-132.5" y="80.0" />
+    </edge>
+    <edge source="Graphisme.ActionMenu" target="Graphisme.Fenetre" relationship="TO_ONE">
+      <point x="-118.0" y="-15.399999999999977" />
+      <point x="1060.0" y="-315.4" />
+      <point x="1060.0" y="-340.0" />
+      <point x="165.0" y="-40.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.7342170929507175" showDependencies="true" x="1059.9259951569804" y="-382.4385063086555" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -2,8 +2,9 @@ package Main;
 
 import Graphisme.Fenetre;
 import Graphisme.Fenetre.element;
+import Simulator.Trader;
 
-public class MenuPrincipale {
+public class MenuPrincipale extends Trader {
 	public MenuPrincipale(Fenetre fenetre) {
 		fenetre.ajoutElement(element.TEXTE, "Bienvenu sur BetaTrader.                               ");
 		fenetre.ajoutElement(element.TEXTE, "BetaTrader vous permet de simuler un marché financier. ");
