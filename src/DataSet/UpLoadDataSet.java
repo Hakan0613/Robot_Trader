@@ -157,5 +157,10 @@ public class UpLoadDataSet {
 	private boolean dataUpload(Cotation data, String nomDB) {
 		return 0<this.taskerDB.updateDB("INSERT INTO `"+nomDB+"` (`noAction`, `date`, `heure`, `coteDebut`, `coteMax`, `coteMin`, `coteFin`, `nbTransaction`) VALUES ('"+data.getNoAction()+"', '"+data.getDate()+"', '"+data.getHeure()+"', '"+data.getCoteDebut()+"', '"+data.getCoteMax()+"', '"+data.getCoteMin()+"', '"+data.getCoteFin()+"', '"+data.getNbTransaction()+"')");			
 	}
-	
+
+	public ArrayList<Cotation> getHistorique(String date){
+		ArrayList<Cotation> cotation = new ArrayList<>();
+
+		return cotation;
+	}
 }

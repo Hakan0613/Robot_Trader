@@ -2,6 +2,7 @@ package Main;
 
 import Graphisme.Fenetre;
 import Graphisme.Fenetre.element;
+import Simulator.Trader;
 
 public class MenuPrincipale {
 	public MenuPrincipale(Fenetre fenetre) {

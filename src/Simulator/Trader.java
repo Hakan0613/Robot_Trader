@@ -76,6 +76,7 @@ public class Trader {
 		portefeuilleAction.afficheActionDetenue();
 		System.out.println("*******************************");
 		System.out.println("\nCapital en fin de simulation "+portefeuilleAction.getCapital());
+		System.out.println("\nCapital en action en fin de simulation estimer au cour actuelle "+portefeuilleAction.getCapitalAction(this.getCoteHoraire(LocalTime.of(17,30))));
 	}
 
 	/**
@@ -113,13 +114,15 @@ public class Trader {
 					return false;
 				}
 				Cotation data = MonSeparateur.separator(ligne, separateur);
+
 				//Cas des donnée manquante
-				while(currentLineTime.isBefore((LocalTime) data.getHeure())) {
-					lastData.setHeure(currentLineTime);
-					this.cour.add(lastData);
-					currentLineTime = currentLineTime.plusMinutes(5);
-				}
-				//System.out.println(data[0] + " " + data[1] + " " + data[2] + " " + data[3] + " " + data[4] + " " + data[5] + " " + data[6] + " " + data[7]);
+				if(lastData!=null)
+					while(currentLineTime.isBefore((LocalTime) data.getHeure())) {
+						lastData.setHeure(currentLineTime);
+						this.cour.add(lastData);
+						currentLineTime = currentLineTime.plusMinutes(5);
+					}
+
 				this.cour.add(data);
 				lastData = data;
 				currentLineTime = (lastData.getHeure()).plusMinutes(5);
@@ -144,6 +147,7 @@ public class Trader {
 	public static void main(String[] args) {
 		Trader alpha = new Trader("\\C:\\Users\\Hakan\\Desktop\\Dossier dev\\Java\\Projet Robot Trader\\SRD_01042019.txt", ';');
 		alpha.simulation(algo.Hasard, 10000);
+
 	}
 }
 

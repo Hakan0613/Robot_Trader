@@ -1,10 +1,11 @@
 package Simulator;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-public class Portefeuille {
+public class Portefeuille{
 	private Double capital;
 	private HashMap<String,Ordre> actionDétenu;
 	private HashMap<String,Ordre> actionVendu;
@@ -59,7 +60,6 @@ public class Portefeuille {
 			else{
 				this.actionDétenu.remove(noAction);
 			}
-
 			return true;
 		}
 	}
@@ -82,6 +82,22 @@ public class Portefeuille {
 
 	public HashMap<String, Ordre> getActionVendu() {
 		return actionVendu;
+	}
+
+	public double getCapitalAction(ArrayList<Cotation> lastCote) {
+		double capitalAction = 0.0;
+		for (Entry<String, Ordre> entry : actionDétenu.entrySet()) {
+			double prix = 0.0;
+			int i=0;
+			while(prix==0.0 && i<lastCote.size()){
+				if(lastCote.get(i).getNoAction()==entry.getValue().getNoAction())
+					prix = lastCote.get(i).getCoteMin();
+				i++;
+			}
+			System.out.println(entry.getValue().getNoAction() + " "+prix);
+			capitalAction = capitalAction + (entry.getValue().getQuantité()*prix);
+		}
+		return capitalAction;
 	}
 	
 	
