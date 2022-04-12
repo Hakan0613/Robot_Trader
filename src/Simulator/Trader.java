@@ -169,9 +169,5 @@ public class Trader {
 		System.out.println(portefeuilleAction.getEvolutionPortfeuille());
 	}
 
-	public static void main(String[] args) {
-		Trader test = new Trader("C:\\Users\\Hakan\\Desktop\\Dossier dev\\Java\\Projet Robot Trader\\Intraday_srd_05122019\\2019\\01-2019\\SRD_02012019.txt", ';');
-		test.simulation(algo.Hasard, 10000f, 0);
-	}
 }
 
