@@ -41,8 +41,8 @@ public class Cotation {
 	public LocalTime getHeure() {
 		return heure;
 	}
-	public void setHeure(LocalTime heure) {
-		this.heure = heure;
+	public void setHeure(LocalTime heureP) {
+		this.heure = heureP;
 	}
 	public Float getCoteDebut() {
 		return coteDebut;

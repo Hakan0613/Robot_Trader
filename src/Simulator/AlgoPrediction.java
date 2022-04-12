@@ -1,20 +1,26 @@
 package Simulator;
 
+import DataSet.MetierDB;
+import DataSet.UpLoadDataSet;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
  * Classe qui contient les algos de prédiction.
  */
 public class AlgoPrediction {
-	enum algo{
+	public enum algo{
 		Hasard
 	}
-	private ArrayList<Cotation> historiqueCotation;
+	private Liste<Cotation> historiqueCotation;
+	private UpLoadDataSet loader;
 
-	public AlgoPrediction() {
-		// TODO Auto-generated constructor stub
+	public AlgoPrediction(MetierDB metierDB) {
+		this.loader = new UpLoadDataSet(metierDB);
 	}
-
 
 	/**
 	 * Permet de faire prediction du choix d'achat d'une action.
@@ -22,14 +28,17 @@ public class AlgoPrediction {
 	 * @param choix
 	 * @return Quantité à acheté
 	 */
-	public int prediction(Object coteActuel, algo choix) {
+	public int[] prediction(Liste<?> coteActuel, algo choix) {
 		// TODO Auto-generated constructor stub
+		int[] prediction = new int[coteActuel.lenght()];
 		switch (choix) {
 			case Hasard:
-				return this.hasard();
+				for(int i=0; i < coteActuel.lenght();i++)
+					prediction[i]=this.hasard();
 		default:
-			return 0;
+
 		}
+		return prediction;
 	}
 
 	/**
@@ -41,5 +50,24 @@ public class AlgoPrediction {
 			return 10;
 		else
 			return 0;
+	}
+
+	private int[] regressionLinéaire(){
+		return null;
+	}
+
+	private ArrayList<Cotation> getLast7Days(LocalDate date){
+		ArrayList<Cotation> liste = new ArrayList<>();
+		LocalDate dateDebutP = date.minusDays(7);
+		LocalDate dateFinP = date.minusDays(1);
+		ArrayList<Cotation> temp = new ArrayList<>();
+		while(dateDebutP.isBefore(dateFinP) || dateDebutP.isEqual(dateFinP)){
+			System.out.println("Chargement des données du " +dateDebutP);
+			temp=loader.getHistorique(dateDebutP);
+			if(temp!=null)
+				liste.addAll(temp);
+			dateDebutP = dateDebutP.plusDays(1);
+		}
+		return liste;
 	}
 }
