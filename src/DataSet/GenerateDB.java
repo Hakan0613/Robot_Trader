@@ -29,7 +29,7 @@ public class GenerateDB {
 	 * Verifie l'existance de la BD donne en parametre
 	 * @param taskDB
 	 * @param dbName
-	 * @return boolean
+	 * @return Vrai si une BD existe au nom spécifier
 	 */
 	public boolean verifDB(MetierDB taskDB, String dbName) {
 		try {

@@ -21,7 +21,11 @@ public class MetierDB {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Connexion à la BD spécifié en paramètre
+	 * @param dbName
+	 */
 	public MetierDB(String dbName) {
 		this.DBName = dbName;
 		this.connection = new ConnectDB();
@@ -34,8 +38,13 @@ public class MetierDB {
 			e.printStackTrace();
 		}
 	}
-	
-	@SuppressWarnings("finally")
+
+
+	/**
+	 * Permet de faire des requettes sur la BD
+	 * @param querry
+	 * @return
+	 */
 	public ResultSet querryDB(String querry) {
 		ResultSet rs = null; 
 		try {
@@ -48,7 +57,12 @@ public class MetierDB {
 			return rs;
 		}
 	}
-	
+
+	/**
+	 * Permet de faire des opération de modification (suppression, changement) sur la BD
+	 * @param querryUpdate
+	 * @return	Nombre de ligne modifier
+	 */
 	public Integer updateDB(String querryUpdate) {
 		int updateLine =0;
 		try {

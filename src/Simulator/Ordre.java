@@ -1,14 +1,15 @@
 package Simulator;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Ordre {
     private String noAction;
     private float prix;
-    private float quantité;
+    private int quantité;
     private LocalDateTime date;
 
-    public Ordre(String noAction, float prix, float quantité, LocalDateTime date) {
+    public Ordre(String noAction, float prix, int quantité, LocalDateTime date) {
         this.noAction = noAction;
         this.prix = prix;
         this.quantité = quantité;
@@ -18,10 +19,10 @@ public class Ordre {
     @Override
     public String toString() {
         return "Ordre{" +
-                "noAction='" + noAction + '\'' +
-                ", prix=" + prix +
-                ", quantité=" + quantité +
-                ", date=" + date +
+                " noAction = '" + noAction + '\'' +
+                ", prix = " + prix +
+                ", quantité = " + quantité +
+                ", date = " + date.format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")) +
                 '}';
     }
 
@@ -49,11 +50,11 @@ public class Ordre {
         this.prix = prix;
     }
 
-    public float getQuantité() {
+    public int getQuantité() {
         return quantité;
     }
 
-    public void setQuantité(float quantité) {
+    public void setQuantité(int quantité) {
         this.quantité = quantité;
     }
 }

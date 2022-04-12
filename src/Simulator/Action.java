@@ -9,6 +9,6 @@ public class Action {
 	private LocalDate annéeSortie;
 	private String secteur1;
 	private String secteur2;
-	private int coteMin;
-	private int coteMax;
+	private Float coteMin;
+	private Float coteMax;
 }

@@ -6,15 +6,19 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 public class Portefeuille{
-	private Double capital;
-	private HashMap<String,Ordre> actionDétenu;
-	private HashMap<String,Ordre> actionVendu;
+	private Float capital;
+	private Float capitalDepart;
+	private Float capitalAction;
+	private Liste<Ordre> actionDétenu;
+	private Liste<Ordre> actionVendu;
 	
-	public Portefeuille(Double capital) {
+	public Portefeuille(Float capital) {
 		super();
 		this.capital = capital;
-		this.actionDétenu = new HashMap<String, Ordre>();
-		this.actionVendu = new HashMap<String, Ordre>();
+		this.capitalDepart = capital;
+		this.capitalAction = 0.0f;
+		this.actionDétenu = new Liste<Ordre>();
+		this.actionVendu = new Liste<Ordre>();
 	}
 
 	/**
@@ -22,7 +26,7 @@ public class Portefeuille{
 	 * @param somme
 	 * @return Autorisation
 	 */
-	public boolean autorisationAchat(double somme) {
+	public boolean autorisationAchat(Float somme) {
 		return this.capital>=somme;
 	}
 
@@ -32,75 +36,56 @@ public class Portefeuille{
 	 * @param quantité
 	 */
 	public void achat(Cotation actionAchete, int quantité) {
-		this.actionDétenu.put(actionAchete.getNoAction(), new Ordre(actionAchete.getNoAction(), actionAchete.getCoteDebut(), quantité, LocalDateTime.now()));
+		this.actionDétenu.add(new Ordre(actionAchete.getNoAction(), actionAchete.getCoteDebut(), quantité, LocalDateTime.of(actionAchete.getDate(), actionAchete.getHeure())));
 		capital -= actionAchete.getCoteDebut()*quantité;
 	}
 
-	/**
-	 * Permet la vente d'une action. L'action vendu retirer des actions détenues et est ajouté dans liste des actions vendues et le capital est augmenter du montant de la vente.
-	 * @param noAction
-	 * @param quantité
-	 * @param prixVente
-	 * @return
-	 */
-	public boolean vente(String noAction, int quantité, float prixVente) {
+
+	public boolean vente(Cotation cote, int quantité) {
 		//Cas ou on à pas suffisament de quantité
-		if(this.actionDétenu.get(noAction).getQuantité()<quantité)
+		if(this.actionDétenu.get(cote.getNoAction()).getQuantité()<quantité)
 			return false;
 		//Cas ou il y a suffisament de quantité
 		else {
-			this.actionVendu.put(noAction, this.actionDétenu.get(noAction));
-			this.actionVendu.get(noAction).setQuantité(quantité);
-			this.actionVendu.get(noAction).setPrix(prixVente);;
-			capital += prixVente*quantité;
+			//On ajoute l'action vendu vendu (cad ordre) dans la liste des actions vendu
+			this.actionVendu.add(new Ordre(cote.getNoAction(), cote.getCoteMin(), quantité, LocalDateTime.of(cote.getDate(), cote.getHeure())));
+			//Le capital augmente du montant des la vente
+			capital = capital + (cote.getCoteMin() * quantité);
 			//Cas ou il y a plus de quantité que ce qui a été vendu
-			if(this.actionDétenu.get(noAction).getQuantité()>quantité)
-				this.actionDétenu.get(noAction).setQuantité(this.actionDétenu.get(noAction).getQuantité()-quantité);
+			if(this.actionDétenu.get(cote.getNoAction()).getQuantité()>quantité)
+				this.actionDétenu.get(cote.getNoAction()).setQuantité(this.actionDétenu.get(cote.getNoAction()).getQuantité()-quantité);
 			//Cas ou il reste plus d'action
 			else{
-				this.actionDétenu.remove(noAction);
+				this.actionDétenu.delete(cote.getNoAction());
 			}
 			return true;
 		}
 	}
-
-	public void afficheActionDetenue() {
-		System.out.println("\t\tAction détenue :\n\t\t***");
-		for (Entry<String, Ordre> entry : actionDétenu.entrySet()) {
-			System.out.println("\t\t\t"+entry.getValue());
-		}
-		System.out.println("\t\t***");
-	}
 	
-	public Double getCapital() {
+	public Float getCapital() {
 		return capital;
 	}
 
-	public HashMap<String, Ordre> getActionDétenu() {
-		return actionDétenu;
+	public Liste<Ordre> getActionDétenu() {
+		return this.actionDétenu;
 	}
 
-	public HashMap<String, Ordre> getActionVendu() {
-		return actionVendu;
+	public Liste<Ordre> getActionVendu() {
+		return this.actionVendu;
 	}
 
-	public double getCapitalAction(ArrayList<Cotation> lastCote) {
-		double capitalAction = 0.0;
-		for (Entry<String, Ordre> entry : actionDétenu.entrySet()) {
-			double prix = 0.0;
-			int i=0;
-			while(prix==0.0 && i<lastCote.size()){
-				if(lastCote.get(i).getNoAction()==entry.getValue().getNoAction())
-					prix = lastCote.get(i).getCoteMin();
-				i++;
-			}
-			System.out.println(entry.getValue().getNoAction() + " "+prix);
-			capitalAction = capitalAction + (entry.getValue().getQuantité()*prix);
+	public Float getCapitalAction(Liste<Cotation> lastCote) {
+		Float capitalActionV = 0.0f;
+		//Pour chaque action détenue
+		for (int i = 0; i < this.actionDétenu.getAll().size() ; i++) {
+			capitalActionV = capitalActionV + (actionDétenu.get(i).getQuantité() * lastCote.get(actionDétenu.get(i).getNoAction()).getCoteMin());
 		}
+		this.capitalAction = capitalActionV;
 		return capitalAction;
 	}
 	
-	
-	
-	
+	public String getEvolutionPortfeuille(){
+		return "Evolution du capital de "+this.capitalDepart + " à "+this.capital +" soit " + (((this.capital-this.capitalDepart)/this.capitalDepart)*100)+"% \nNombre d'action détenue " + this.actionDétenu.getAll().size();
+	}
+
 }

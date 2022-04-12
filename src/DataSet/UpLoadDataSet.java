@@ -2,12 +2,16 @@ package DataSet;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import Simulator.Cotation;
+import Simulator.Liste;
 
 //
 public class UpLoadDataSet {
@@ -33,7 +37,7 @@ public class UpLoadDataSet {
 				boolean res = false;
 				File[] dossier = fichier.listFiles();
 				for (int i = 0; i < dossier.length; i++) {
-					res = chargerData(dossier[i], separateur);
+					res = chargerDataSet(dossier[i].getPath(), separateur);
 				}
 				return res;
 			}
@@ -44,12 +48,13 @@ public class UpLoadDataSet {
 
 
 	/**
-	 * Crée la table et déclenche le chargement des données.
+	 * Crée la table de donnée et déclenche le chargement des données.
 	 * @param fichier
 	 * @param separateur
 	 * @return boolean
 	 */
 	private boolean chargerData(File fichier, char separateur) {
+		System.out.println("Fichier en cour de chargement : " + fichier.getName());
 		if(fichier.exists() && fichier.canRead()) {
 			String nomTable = "data_"+fichier.getName().substring(fichier.getName().indexOf("_")+1, fichier.getName().indexOf("."));
 			if(this.newTable(nomTable)) {
@@ -62,6 +67,45 @@ public class UpLoadDataSet {
 			return false;
 	}
 
+	/**
+	 * Charge chaque ligne du fichier dans la BD.
+	 * @param leFichier
+	 * @param separateur
+	 * @return boolean
+	 */
+	public Liste<Cotation> loadFile(File leFichier, char separateur) {
+		try {
+			Scanner myReader = new Scanner(leFichier);
+			Cotation lastData = null;
+			LocalTime currentLineTime = LocalTime.of(9, 0);
+			Liste<Cotation> cotationListe = new Liste<>();
+			while (myReader.hasNextLine()) {
+				String ligne = myReader.nextLine();
+				//Verification que le séparateur correspond à celui du fichier
+				if(6>ligne.indexOf(separateur) || ligne.indexOf(separateur)>16 || ligne.lastIndexOf(separateur)<20) {
+					System.out.println("Le seprateur specifié n'est pas valide");
+				}
+				Cotation data = this.separator(ligne, separateur);
+				//Cas des donnée manquante
+				while(currentLineTime.isBefore((LocalTime) data.getHeure())) {
+					if(lastData!=null) {
+						lastData.setHeure(currentLineTime);
+						cotationListe.add(lastData);
+					}
+					currentLineTime = currentLineTime.plusMinutes(5);
+				}
+				cotationListe.add(data);
+				lastData = data;
+				currentLineTime = lastData.getHeure().plusMinutes(5);
+			}
+			myReader.close();
+			return cotationListe;
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	/**
 	 * Charge chaque ligne du fichier dans la BD.
@@ -73,36 +117,38 @@ public class UpLoadDataSet {
 	private boolean saveData(File leFichier, String nomTable, char separateur) {
 		boolean checkUpload=true;
 		try {
-				Scanner myReader = new Scanner(leFichier);
-				Cotation lastData = null;
-				LocalTime currentLineTime = LocalTime.of(9, 0);
-				while (myReader.hasNextLine() && checkUpload) {
-					String ligne = myReader.nextLine();
-					//Verification que le séparateur correspond à celui du fichier
-					if(6>ligne.indexOf(separateur) || ligne.indexOf(separateur)>16 || ligne.lastIndexOf(separateur)<20) {
-						checkUpload=false;
-						System.out.println("Le seprateur specifié n'est pas valide");
-					}
-					if(checkUpload) {
-						Cotation data = this.separator(ligne, separateur);
-					
+			Scanner myReader = new Scanner(leFichier);
+			Cotation lastData = null;
+			LocalTime currentLineTime = LocalTime.of(9, 0);
+			while (myReader.hasNextLine() && checkUpload) {
+				String ligne = myReader.nextLine();
+				//Verification que le séparateur correspond à celui du fichier
+				if(6>ligne.indexOf(separateur) || ligne.indexOf(separateur)>16 || ligne.lastIndexOf(separateur)<20) {
+					checkUpload=false;
+					System.out.println("Le seprateur specifié n'est pas valide");
+				}
+				if(checkUpload) {
+					Cotation data = this.separator(ligne, separateur);
+
 					//Cas des donnée manquante
 					while(currentLineTime.isBefore((LocalTime) data.getHeure())) {
-						lastData.setHeure(currentLineTime);
-						checkUpload=this.dataUpload(lastData, nomTable);
+						if(lastData!=null) {
+							lastData.setHeure(currentLineTime);
+							checkUpload = this.dataUpload(lastData, nomTable);
+						}
 						currentLineTime = currentLineTime.plusMinutes(5);
 					}
 					//System.out.println(data[0] + " " + data[1] + " " + data[2] + " " + data[3] + " " + data[4] + " " + data[5] + " " + data[6] + " " + data[7]);
 					checkUpload=this.dataUpload(data, nomTable);
 					lastData = data;
 					currentLineTime = (lastData.getHeure()).plusMinutes(5);
-					}
-				}myReader.close();
-		    } catch (FileNotFoundException e) {
-		    	checkUpload=false;
-		      System.out.println("An error occurred.");
-		      e.printStackTrace();    
-		    }
+				}
+			}myReader.close();
+		} catch (FileNotFoundException e) {
+			checkUpload=false;
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
 		return checkUpload;
 	}
 
@@ -117,7 +163,7 @@ public class UpLoadDataSet {
 
 
 	/**
-	 * Séparer les données d'une ligne de donnée pour crée et renvoyée une cotation correspondant au données.
+	 * Séparer les données d'une ligne de données pour crée et renvoyée une cotation correspondant au données.
 	 * @param data
 	 * @param separateur
 	 * @return Cotation
@@ -158,9 +204,29 @@ public class UpLoadDataSet {
 		return 0<this.taskerDB.updateDB("INSERT INTO `"+nomDB+"` (`noAction`, `date`, `heure`, `coteDebut`, `coteMax`, `coteMin`, `coteFin`, `nbTransaction`) VALUES ('"+data.getNoAction()+"', '"+data.getDate()+"', '"+data.getHeure()+"', '"+data.getCoteDebut()+"', '"+data.getCoteMax()+"', '"+data.getCoteMin()+"', '"+data.getCoteFin()+"', '"+data.getNbTransaction()+"')");			
 	}
 
-	public ArrayList<Cotation> getHistorique(String date){
+	/**
+	 * Charger depuis la BD un jeu de donnée à une date spécifier
+	 * @param date
+	 * @return ArrayList<Cotation>
+	 */
+	public ArrayList<Cotation> getHistorique(LocalDate date){
 		ArrayList<Cotation> cotation = new ArrayList<>();
 
+		ResultSet resultDB = this.taskerDB.querryDB("SELECT * FROM `data_"+date.format(DateTimeFormatter.ofPattern("ddMMyyyy"))+"`");
+		Cotation tempCote;
+		if (resultDB!=null)
+			try {
+				while(resultDB.next()) {
+					tempCote = new Cotation(resultDB.getString("noAction"),  resultDB.getDate("date").toLocalDate(), resultDB.getTime("heure").toLocalTime(), resultDB.getFloat("coteDebut") , resultDB.getFloat("coteMax"),resultDB.getFloat("coteMin"), resultDB.getFloat("coteFin"), resultDB.getInt("nbTransaction"));
+					cotation.add(tempCote);
+				}
+			}
+			catch (SQLException s){
+				s.printStackTrace();
+				System.err.println("Une erreur dans le chargement des données depuis la BD");
+			}
+		else
+			return null;
 		return cotation;
 	}
 }
